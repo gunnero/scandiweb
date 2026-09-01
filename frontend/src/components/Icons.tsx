@@ -10,24 +10,6 @@ const sharedProps = {
   viewBox: '0 0 24 24',
 };
 
-export function CloseIcon(props: IconProps) {
-  return (
-    <svg width={24} height={24} strokeWidth={2} {...sharedProps} {...props}>
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
-  );
-}
-
-export function ShoppingBagIcon(props: IconProps) {
-  return (
-    <svg width={24} height={24} strokeWidth={2} {...sharedProps} {...props}>
-      <path d="M6 8V6a6 6 0 0 1 12 0v2" />
-      <path d="M4 8h16l-1 13H5L4 8Z" />
-    </svg>
-  );
-}
-
 export function ShoppingCartIcon(props: IconProps) {
   return (
     <svg width={24} height={24} strokeWidth={2} {...sharedProps} {...props}>

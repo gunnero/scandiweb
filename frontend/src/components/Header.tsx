@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
+import brandLogo from '../assets/a-logo.svg';
 import { useCart } from '../context/CartContext';
 import { useCatalog } from '../context/CatalogContext';
-import { ShoppingBagIcon } from './Icons';
 
 export function Header() {
   const { activeCategoryName, categories } = useCatalog();
@@ -29,7 +29,7 @@ export function Header() {
         </nav>
 
         <NavLink className="brand-mark" to="/" aria-label="Scandiweb storefront home">
-          <ShoppingBagIcon width={22} height={22} strokeWidth={2.4} aria-hidden="true" />
+          <img src={brandLogo} alt="" aria-hidden="true" />
         </NavLink>
 
         <button

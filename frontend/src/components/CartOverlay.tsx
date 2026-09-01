@@ -3,9 +3,8 @@ import { createOrder } from '../api/catalog';
 import { useCart } from '../context/CartContext';
 import type { CartItem } from '../types/catalog';
 import { formatPrice, toKebabCase } from '../utils/format';
-import { CloseIcon } from './Icons';
 
-const itemLabel = (count: number): string => `${count} ${count === 1 ? 'Item' : 'Items'}`;
+const itemLabel = (count: number): string => `${count} ${count === 1 ? 'item' : 'items'}`;
 
 const optionTestId = (
   attributeName: string,
@@ -190,15 +189,6 @@ export function CartOverlay() {
           <p>
             <strong>My Bag,</strong> {itemLabel(itemCount)}
           </p>
-          <button
-            className="cart-close"
-            type="button"
-            aria-label="Close cart"
-            disabled={isSubmitting}
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon width={18} height={18} aria-hidden="true" />
-          </button>
         </div>
 
         <div className="cart-lines">

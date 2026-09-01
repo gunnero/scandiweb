@@ -146,7 +146,6 @@ export function ProductDetailsPage() {
       </section>
 
       <section className="product-information">
-        <p className="product-brand">{product.brand}</p>
         <h1>{product.name}</h1>
 
         {product.attributes.map((attribute) => (
