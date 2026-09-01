@@ -7,11 +7,15 @@ A standards-focused implementation of the Scandiweb Junior Full-Stack Developer 
 - Vite, React and TypeScript
 - Functional React components and plain CSS
 - `webonyx/graphql-php` on PHP 8.1+
-- FastRoute, matching the supplied GraphQL starter carcass
+- FastRoute, extending the supplied GraphQL starter carcass
 - MySQL 5.6-compatible SQL with PDO repositories
 - PHPUnit, PHP_CodeSniffer, Vitest and Testing Library
 
 No React framework, backend framework, component library, bundled catalog fallback or browser-local order substitute is used.
+
+## GraphQL starter foundation
+
+The backend extends Scandiweb's [provided GraphQL carcass](https://github.com/Mr0Bread/fullstack-test-starter/tree/8ed02d39620e4ba3dba186d52d2031c8930b1fff). It retains the starter's PSR-4 `App\` namespace, FastRoute `POST /graphql` entry point and Webonyx request/execute/serialize lifecycle. The placeholder `echo` query and `sum` mutation were replaced with the application-owned catalog schema, resolver classes and persistent `createOrder` mutation.
 
 ## Local setup
 
