@@ -1,0 +1,33 @@
+services:
+  database:
+    image: mysql:5.7.44
+    environment:
+      MYSQL_DATABASE: scandiweb
+      MYSQL_USER: scandiweb
+      MYSQL_PASSWORD: "${SCANDIWEB_DB_PASSWORD:?Set SCANDIWEB_DB_PASSWORD before starting Docker Compose}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u\"$$MYSQL_USER\" -p\"$$MYSQL_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - scandiweb-database:/var/lib/mysql
+
+  storefront:
+    build: .
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      APP_DEBUG: "0"
+      DB_HOST: database
+      DB_PORT: "3306"
+      DB_NAME: scandiweb
+      DB_USER: scandiweb
+      DB_PASSWORD: "${SCANDIWEB_DB_PASSWORD:?Set SCANDIWEB_DB_PASSWORD before starting Docker Compose}"
+    ports:
+      - "8080:80"
+
+volumes:
+  scandiweb-database:

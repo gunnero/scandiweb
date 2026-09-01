@@ -1,0 +1,16 @@
+{
+  "name": "scandiweb",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n API,WEB -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "composer --working-dir=backend run serve",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix frontend run test && composer --working-dir=backend run test",
+    "check": "npm --prefix frontend run check && composer --working-dir=backend run check"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

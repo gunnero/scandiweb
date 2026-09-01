@@ -1,0 +1,48 @@
+{
+    "name": "scandiweb/fullstack-test",
+    "description": "Scandiweb junior full-stack ecommerce GraphQL API",
+    "license": "proprietary",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "nikic/fast-route": "^1.3",
+        "vlucas/phpdotenv": "^5.6",
+        "webonyx/graphql-php": "^15.37.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "squizlabs/php_codesniffer": "^3.13"
+    },
+    "scripts": {
+        "serve": "php -S 0.0.0.0:8010 -t public public/index.php",
+        "seed": "php bin/seed.php",
+        "test": "phpunit --configuration phpunit.xml.dist",
+        "lint": "phpcs --standard=phpcs.xml src public bin tests",
+        "check": [
+            "@lint",
+            "@test"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
