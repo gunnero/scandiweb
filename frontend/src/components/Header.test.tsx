@@ -7,11 +7,13 @@ import { CartProvider, useCart } from '../context/CartContext';
 import type { Product } from '../types/catalog';
 import { Header } from './Header';
 
+const catalogState = vi.hoisted(() => ({
+  activeCategoryName: null as string | null,
+  categories: [] as Array<{ id: string; name: string }>,
+}));
+
 vi.mock('../context/CatalogContext', () => ({
-  useCatalog: () => ({
-    activeCategoryName: null,
-    categories: [],
-  }),
+  useCatalog: () => catalogState,
 }));
 
 const product: Product = {
@@ -59,9 +61,33 @@ function renderHeader({ withCartItems = false } = {}) {
   );
 }
 
-describe('Header cart button', () => {
+describe('Header', () => {
   beforeEach(() => {
     localStorage.clear();
+    catalogState.activeCategoryName = null;
+    catalogState.categories = [];
+  });
+
+  it('uses the required test ids for active and inactive category links', () => {
+    catalogState.activeCategoryName = 'all';
+    catalogState.categories = [
+      { id: 'all', name: 'all' },
+      { id: 'clothes', name: 'clothes' },
+      { id: 'tech', name: 'tech' },
+    ];
+
+    renderHeader();
+
+    expect(screen.getByTestId('active-category-link')).toHaveTextContent('all');
+    expect(screen.getByTestId('active-category-link')).toHaveAttribute(
+      'data-testid',
+      'active-category-link',
+    );
+    expect(screen.getAllByTestId('category-link')).toHaveLength(2);
+    expect(screen.getAllByTestId('category-link').map((link) => link.textContent)).toEqual([
+      'clothes',
+      'tech',
+    ]);
   });
 
   it('uses the required test id, hides the zero-count bubble, and toggles the cart', async () => {

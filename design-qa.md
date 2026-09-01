@@ -73,7 +73,7 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - A three-attribute iMac plus a second configurable product rendered without overlap; the cart retained the source summary/button geometry and scrolled vertically as needed.
 - Temporary visual-test items were removed; final preview cart count is zero.
 - Browser console errors/warnings after the primary flow: none.
-- Frontend: 9 test files and 19 tests passed, including header/bubble behavior, variant grouping, persistence, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
+- Frontend: 9 test files and 20 tests passed, including header category IDs and cart-bubble behavior, variant grouping, persistence, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
 - Backend: 11 tests and 49 assertions passed; PHPCS passed.
 
 ## Implementation checklist
