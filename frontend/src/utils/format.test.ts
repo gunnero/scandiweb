@@ -6,6 +6,7 @@ describe('format helpers', () => {
     expect(toKebabCase('iPhone 12 Pro')).toBe('iphone-12-pro');
     expect(toKebabCase('Touch ID in keyboard')).toBe('touch-id-in-keyboard');
     expect(toKebabCase('Extra Large')).toBe('extra-large');
+    expect(toKebabCase('#44FF03')).toBe('44ff03');
   });
 
   it('always renders two decimal places', () => {

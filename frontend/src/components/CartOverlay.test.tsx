@@ -89,6 +89,9 @@ describe('CartOverlay', () => {
     expect(screen.getByTestId('cart-item-attribute-color-black-selected')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-color-green')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-color-black-selected').tagName).toBe('SPAN');
+    expect(screen.getByTestId('cart-item-amount-increase')).toBeEnabled();
+    expect(screen.getByTestId('cart-item-amount')).toHaveTextContent('1');
+    expect(screen.getByTestId('cart-item-amount-decrease')).toBeEnabled();
     expect(screen.getByRole('heading', { name: 'iPhone' })).toBeVisible();
     expect(screen.getByText('My Bag,').parentElement).toHaveTextContent('My Bag, 1 Item');
     expect(screen.getByTestId('cart-total')).toHaveTextContent('$1000.76');
@@ -155,13 +158,16 @@ describe('CartOverlay', () => {
           id: 'Capacity',
           name: 'Capacity',
           type: 'text',
-          items: [{ id: '256GB', displayValue: '256GB', value: '256GB' }],
+          items: [{ id: 'capacity-256', displayValue: '256GB', value: '256GB' }],
         },
         {
           id: 'Touch ID',
           name: 'Touch ID in keyboard',
           type: 'text',
-          items: [{ id: 'Yes', displayValue: 'Yes', value: 'Yes' }],
+          items: [
+            { id: 'touch-yes', displayValue: 'Yes', value: 'Yes' },
+            { id: 'touch-no', displayValue: 'No', value: 'No' },
+          ],
         },
       ],
     };
@@ -170,14 +176,23 @@ describe('CartOverlay', () => {
       <CartProvider>
         <OpenCart
           cartProduct={productWithThreeAttributes}
-          selectedAttributes={{ Color: 'Black', Capacity: '256GB', 'Touch ID': 'Yes' }}
+          selectedAttributes={{
+            Color: 'Black',
+            Capacity: 'capacity-256',
+            'Touch ID': 'touch-yes',
+          }}
         />
       </CartProvider>,
     );
 
     expect(screen.getByTestId('cart-item-attribute-color')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-capacity')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-capacity-256gb-selected')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard')).toBeVisible();
+    expect(
+      screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-yes-selected'),
+    ).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-no')).toBeVisible();
     expect(screen.getByTestId('cart-total')).toHaveTextContent('€1688.03');
   });
 });
