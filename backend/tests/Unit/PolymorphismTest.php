@@ -9,11 +9,15 @@ use App\Model\Attribute\AttributeFactory;
 use App\Model\Attribute\AttributeItem;
 use App\Model\Attribute\SwatchAttribute;
 use App\Model\Attribute\TextAttribute;
+use App\Model\Category\AllCategory;
+use App\Model\Category\CategoryFactory;
+use App\Model\Category\NamedCategory;
 use App\Model\Money;
 use App\Model\Price;
 use App\Model\Product\ConfigurableProduct;
 use App\Model\Product\ProductFactory;
 use App\Model\Product\SimpleProduct;
+use App\Repository\ProductRepositoryInterface;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -85,5 +89,25 @@ final class PolymorphismTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $factory->create('swatch', 'Color', 'Color', $namedValue);
+    }
+
+    public function testCategoryTypesDelegateTheirOwnCatalogScope(): void
+    {
+        $factory = new CategoryFactory();
+        $all = $factory->create('1', 'all');
+        $named = $factory->create('2', 'tech');
+
+        self::assertInstanceOf(AllCategory::class, $all);
+        self::assertInstanceOf(NamedCategory::class, $named);
+
+        $allProducts = $this->createMock(ProductRepositoryInterface::class);
+        $allProducts->expects(self::once())->method('all')->willReturn([]);
+        $allProducts->expects(self::never())->method('inCategory');
+        self::assertSame([], $all->productsFrom($allProducts));
+
+        $namedProducts = $this->createMock(ProductRepositoryInterface::class);
+        $namedProducts->expects(self::never())->method('all');
+        $namedProducts->expects(self::once())->method('inCategory')->with('tech')->willReturn([]);
+        self::assertSame([], $named->productsFrom($namedProducts));
     }
 }

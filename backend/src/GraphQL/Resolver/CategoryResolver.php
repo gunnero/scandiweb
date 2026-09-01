@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GraphQL\Resolver;
 
-use App\Model\Category;
+use App\Model\Category\AbstractCategory;
 use App\Repository\CategoryRepositoryInterface;
 
 final class CategoryResolver
@@ -13,7 +13,7 @@ final class CategoryResolver
     {
     }
 
-    /** @return list<Category> */
+    /** @return list<AbstractCategory> */
     public function all(): array
     {
         return $this->categories->all();

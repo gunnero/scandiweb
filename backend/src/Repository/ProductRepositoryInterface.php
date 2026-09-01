@@ -9,7 +9,10 @@ use App\Model\Product\AbstractProduct;
 interface ProductRepositoryInterface
 {
     /** @return list<AbstractProduct> */
-    public function byCategory(string $categoryName): array;
+    public function all(): array;
+
+    /** @return list<AbstractProduct> */
+    public function inCategory(string $categoryName): array;
 
     public function find(string $id): ?AbstractProduct;
 

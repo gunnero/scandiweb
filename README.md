@@ -77,7 +77,8 @@ The backend tests include real MySQL catalog and transactional order-persistence
 
 ## Architecture
 
-- `backend/src/Model/Product` and `backend/src/Model/Attribute` contain abstract models and concrete type subclasses.
+- `backend/src/Model/Category`, `backend/src/Model/Product` and `backend/src/Model/Attribute` contain abstract models and concrete type subclasses.
+- Aggregate and named categories delegate to separate catalog repository operations through their own subtype behavior.
 - Type dispatch uses explicit class registries rather than product/attribute `if` or `switch` chains.
 - Attribute subclasses enforce type-specific invariants: text options require non-empty values, while swatches require hexadecimal colors.
 - GraphQL types and resolvers are separate from PDO repositories.

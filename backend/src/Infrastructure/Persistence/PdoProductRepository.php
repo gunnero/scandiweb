@@ -19,21 +19,21 @@ final class PdoProductRepository implements ProductRepositoryInterface
     ) {
     }
 
-    public function byCategory(string $categoryName): array
+    public function all(): array
     {
-        if ($categoryName === 'all') {
-            $statement = $this->connection->query($this->baseQuery() . ' ORDER BY products.position ASC');
-        } else {
-            $statement = $this->connection->prepare(
-                $this->baseQuery() . ' WHERE categories.name = :category ORDER BY products.position ASC'
-            );
-            $statement->execute(['category' => $categoryName]);
-        }
+        $statement = $this->connection->query($this->baseQuery() . ' ORDER BY products.position ASC');
 
-        return array_map(
-            fn (array $row): AbstractProduct => $this->hydrate($row),
-            $statement->fetchAll()
+        return $this->hydrateAll($statement->fetchAll());
+    }
+
+    public function inCategory(string $categoryName): array
+    {
+        $statement = $this->connection->prepare(
+            $this->baseQuery() . ' WHERE categories.name = :category ORDER BY products.position ASC'
         );
+        $statement->execute(['category' => $categoryName]);
+
+        return $this->hydrateAll($statement->fetchAll());
     }
 
     public function find(string $id): ?AbstractProduct
@@ -64,6 +64,18 @@ final class PdoProductRepository implements ProductRepositoryInterface
                        categories.name AS category_name
                 FROM products
                 INNER JOIN categories ON categories.id = products.category_id';
+    }
+
+    /**
+     * @param list<array<string, mixed>> $rows
+     * @return list<AbstractProduct>
+     */
+    private function hydrateAll(array $rows): array
+    {
+        return array_map(
+            fn (array $row): AbstractProduct => $this->hydrate($row),
+            $rows
+        );
     }
 
     /** @param array<string, mixed> $row */

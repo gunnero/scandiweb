@@ -18,17 +18,28 @@ use App\Infrastructure\Persistence\PdoOrderRepository;
 use App\Infrastructure\Persistence\PdoProductRepository;
 use App\Infrastructure\Persistence\PdoTransactionManager;
 use App\Model\Attribute\AttributeFactory;
+use App\Model\Category\CategoryFactory;
 use App\Model\Product\ProductFactory;
+use GraphQL\Type\Schema;
 use PDO;
 
 final class ApplicationFactory
 {
     public static function graphQLController(PDO $connection): GraphQLController
     {
+        return new GraphQLController(
+            self::schema($connection),
+            ApplicationConfig::debugEnabled()
+        );
+    }
+
+    public static function schema(PDO $connection): Schema
+    {
         $attributeRepository = new PdoAttributeRepository(
             $connection,
             new AttributeFactory()
         );
+        $categoryRepository = new PdoCategoryRepository($connection, new CategoryFactory());
         $productRepository = new PdoProductRepository($connection, new ProductFactory());
         $placeOrder = new PlaceOrderService(
             $productRepository,
@@ -36,13 +47,11 @@ final class ApplicationFactory
             new PdoOrderRepository($connection),
             new PdoTransactionManager($connection)
         );
-        $schema = (new SchemaFactory(
-            new CategoryResolver(new PdoCategoryRepository($connection)),
-            new ProductResolver($productRepository),
+        return (new SchemaFactory(
+            new CategoryResolver($categoryRepository),
+            new ProductResolver($productRepository, $categoryRepository),
             new AttributeResolver($attributeRepository),
             new OrderResolver($placeOrder)
         ))->create();
-
-        return new GraphQLController($schema, ApplicationConfig::debugEnabled());
     }
 }
