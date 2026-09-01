@@ -1,8 +1,8 @@
-import { ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import type { Product } from '../types/catalog';
 import { formatPrice, toKebabCase } from '../utils/format';
+import { ShoppingCartIcon } from './Icons';
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -41,7 +41,7 @@ export function ProductCard({ product }: { product: Product }) {
           aria-label={`Quick shop ${product.name}`}
           onClick={handleQuickShop}
         >
-          <ShoppingCart size={22} strokeWidth={2.2} aria-hidden="true" />
+          <ShoppingCartIcon width={22} height={22} strokeWidth={2.2} aria-hidden="true" />
         </button>
       )}
     </article>

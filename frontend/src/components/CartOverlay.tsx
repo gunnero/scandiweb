@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
 import { createOrder } from '../api/catalog';
 import { useCart } from '../context/CartContext';
 import type { CartItem } from '../types/catalog';
 import { formatPrice, toKebabCase } from '../utils/format';
+import { CloseIcon } from './Icons';
 
 const itemLabel = (count: number): string => `${count} ${count === 1 ? 'Item' : 'Items'}`;
 
@@ -197,7 +197,7 @@ export function CartOverlay() {
             disabled={isSubmitting}
             onClick={() => setOpen(false)}
           >
-            <X size={18} aria-hidden="true" />
+            <CloseIcon width={18} height={18} aria-hidden="true" />
           </button>
         </div>
 

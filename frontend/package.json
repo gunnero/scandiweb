@@ -7,7 +7,6 @@
     "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
     "html-react-parser": "^6.1.7",
-    "lucide-react": "^1.39.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3"

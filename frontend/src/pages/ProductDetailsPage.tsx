@@ -1,9 +1,9 @@
 import parse from 'html-react-parser';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchProduct } from '../api/catalog';
 import { AsyncState } from '../components/AsyncState';
+import { ChevronLeftIcon, ChevronRightIcon } from '../components/Icons';
 import { useCart } from '../context/CartContext';
 import { useCatalog } from '../context/CatalogContext';
 import type { Product } from '../types/catalog';
@@ -130,7 +130,7 @@ export function ProductDetailsPage() {
                 aria-label="Previous product image"
                 onClick={previousImage}
               >
-                <ChevronLeft aria-hidden="true" />
+                <ChevronLeftIcon aria-hidden="true" />
               </button>
               <button
                 className="gallery-arrow gallery-arrow-right"
@@ -138,7 +138,7 @@ export function ProductDetailsPage() {
                 aria-label="Next product image"
                 onClick={nextImage}
               >
-                <ChevronRight aria-hidden="true" />
+                <ChevronRightIcon aria-hidden="true" />
               </button>
             </>
           )}
