@@ -12,9 +12,14 @@ abstract class AbstractAttribute
         private readonly string $name,
         private readonly array $items
     ) {
+        foreach ($items as $item) {
+            $this->assertItemInvariant($item);
+        }
     }
 
     abstract public function type(): string;
+
+    abstract protected function assertItemInvariant(AttributeItem $item): void;
 
     public function id(): string
     {

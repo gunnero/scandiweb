@@ -79,6 +79,7 @@ The backend tests include real MySQL catalog and transactional order-persistence
 
 - `backend/src/Model/Product` and `backend/src/Model/Attribute` contain abstract models and concrete type subclasses.
 - Type dispatch uses explicit class registries rather than product/attribute `if` or `switch` chains.
+- Attribute subclasses enforce type-specific invariants: text options require non-empty values, while swatches require hexadecimal colors.
 - GraphQL types and resolvers are separate from PDO repositories.
 - Product attributes are resolved by `AttributeResolver` and `AttributeType`, rather than directly inside product query logic.
 - Checkout validates stock, quantities and every arbitrary attribute selection, calculates prices on the server and writes one order header, its lines and selection snapshots in one transaction.

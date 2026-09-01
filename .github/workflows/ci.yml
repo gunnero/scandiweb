@@ -1,0 +1,88 @@
+name: Full-stack quality gate
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: PHP 8.1 / MySQL 5.7
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      mysql:
+        image: mysql:5.7.44
+        env:
+          MYSQL_DATABASE: scandiweb_test
+          MYSQL_USER: scandiweb_test
+          MYSQL_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
+          MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      APP_DEBUG: "0"
+      APP_ALLOWED_ORIGIN: http://localhost:3000
+      DB_HOST: 127.0.0.1
+      DB_PORT: "3306"
+      DB_NAME: scandiweb_test
+      DB_USER: scandiweb_test
+      DB_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: mbstring, pdo_mysql
+          tools: composer:v2
+          coverage: none
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+
+      - name: Install backend dependencies
+        run: composer --working-dir=backend install --no-interaction --prefer-dist --no-progress
+
+      - name: Validate Composer metadata
+        run: composer --working-dir=backend validate --strict
+
+      - name: Seed canonical catalog
+        run: composer --working-dir=backend run seed
+
+      - name: Run frontend and backend checks
+        run: npm run check
+
+      - name: Build production frontend
+        run: npm run build
+
+      - name: Audit dependencies
+        run: |
+          npm --prefix frontend audit --audit-level=moderate
+          composer --working-dir=backend audit

@@ -14,6 +14,7 @@ use App\Model\Price;
 use App\Model\Product\ConfigurableProduct;
 use App\Model\Product\ProductFactory;
 use App\Model\Product\SimpleProduct;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class PolymorphismTest extends TestCase
@@ -70,5 +71,19 @@ final class PolymorphismTest extends TestCase
 
         $this->expectException(UserInputException::class);
         $configurable->assertPurchasable([$size], []);
+    }
+
+    public function testAttributeTypesEnforceTheirOwnValueInvariants(): void
+    {
+        $factory = new AttributeFactory();
+        $namedValue = [new AttributeItem('Blue', 'Blue', 'blue')];
+
+        self::assertInstanceOf(
+            TextAttribute::class,
+            $factory->create('text', 'Finish', 'Finish', $namedValue)
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $factory->create('swatch', 'Color', 'Color', $namedValue);
     }
 }
