@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Order, OrderItemInput } from '../types/catalog';
+import type { Order, OrderItemInput, Product } from '../types/catalog';
 
 const { requestMock } = vi.hoisted(() => ({
   requestMock: vi.fn(),
@@ -17,7 +17,40 @@ vi.mock('graphql-request', () => ({
     ),
 }));
 
-import { createOrder } from './catalog';
+import { createOrder, fetchProduct } from './catalog';
+
+describe('fetchProduct', () => {
+  beforeEach(() => {
+    requestMock.mockReset();
+  });
+
+  it('requests the complete PDP product document with the route id', async () => {
+    const product: Product = {
+      id: 'trail-runner',
+      name: 'Trail Runner',
+      description: '<p>Comfortable.</p>',
+      categoryName: 'clothes',
+      brand: 'Active',
+      inStock: true,
+      gallery: ['front.jpg', 'back.jpg'],
+      prices: [{ amount: 129.9, currencyLabel: 'USD', currencySymbol: '$' }],
+      attributes: [],
+    };
+    requestMock.mockResolvedValueOnce({ product });
+
+    await expect(fetchProduct('trail-runner')).resolves.toEqual(product);
+
+    const [document, variables] = requestMock.mock.calls[0] as [string, unknown];
+    const normalizedDocument = document.replace(/\s+/g, ' ').trim();
+
+    expect(variables).toEqual({ id: 'trail-runner' });
+    expect(normalizedDocument).toContain('query Product($id: ID!)');
+    expect(normalizedDocument).toContain('product(id: $id)');
+    expect(normalizedDocument).toContain('gallery');
+    expect(normalizedDocument).toContain('attributes');
+    expect(normalizedDocument).toContain('description');
+  });
+});
 
 describe('createOrder', () => {
   beforeEach(() => {

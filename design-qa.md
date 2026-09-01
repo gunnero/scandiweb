@@ -70,6 +70,12 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - Verified card images, names, two-decimal prices, exact kebab-case product test IDs, PDP links, out-of-stock presentation and cart protection, and first-option Quick Shop selections.
 - Confirmed in the live browser that Quick Shop appears on card hover and disappears when the pointer leaves; out-of-stock cards remain dimmed and never show that control.
 
+### Iteration 6 — product-details functionality passed
+
+- Verified exact PDP test IDs, product data and two-decimal price rendering, selectable text/color attributes, parsed semantic HTML below Add to Cart, and disabled/enabled stock and selection states.
+- Verified every gallery thumbnail, thumbnail switching, overlaid previous/next controls, and the fixed-height scrollable thumbnail rail.
+- Confirmed Add to Cart records the selected variant and immediately opens the cart overlay; added component and GraphQL product-query regression coverage.
+
 ## Functional verification
 
 - Category navigation reached `/category/all` without a reload.
@@ -79,7 +85,7 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - A three-attribute iMac plus a second configurable product rendered without overlap; the cart retained the source summary/button geometry and scrolled vertically as needed.
 - Temporary visual-test items were removed; final preview cart count is zero.
 - Browser console errors/warnings after the primary flow: none.
-- Frontend: 11 test files and 23 tests passed, including default/category routing, product-card stock and Quick Shop behavior, header/category IDs, cart persistence and grouping, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
+- Frontend: 12 test files and 27 tests passed, including default/category routing, PLP/PDP stock and configuration behavior, gallery controls, parsed descriptions, header/category IDs, cart persistence and grouping, and exact product/order GraphQL documents; TypeScript check passed; Vite production build passed.
 - Backend: 11 tests and 49 assertions passed; PHPCS passed.
 
 ## Implementation checklist
