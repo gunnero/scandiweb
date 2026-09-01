@@ -16,6 +16,7 @@
 - Reopenable comparison viewer: `design-evidence/comparison.html`.
 - Source captures: `design-evidence/figma-category-source.png`, `design-evidence/figma-pdp-source.png`, `design-evidence/figma-cart-source.png`.
 - Rendered implementation: `design-evidence/implementation-category-after.png`, `design-evidence/implementation-pdp-after.png`, `design-evidence/implementation-cart-after.png`.
+- Backend-data cart evidence: `design-evidence/implementation-cart-after-data-fix.png` for the normal two-line state and `design-evidence/implementation-cart-dynamic-after.png` for the supplied three-attribute iMac plus iPhone state. Both are displayed with the source comparison in `design-evidence/comparison.html`.
 - Responsive check: `design-evidence/responsive-check.png`, containing category, PDP, and empty-cart views at `390 × 844` CSS px.
 - Focused-region evidence: separate crops were unnecessary after the final full-view comparison because the decoded Figma scenegraph and browser DOM measurements exposed the critical regions at exact CSS dimensions. The VSF logo, PDP geometry, and cart geometry were also checked individually at full resolution.
 
@@ -28,6 +29,7 @@ No actionable P0, P1, or P2 differences remain.
 - Colors and visual tokens: the `#5ECE7B` primary, `#1D1F22` ink, `#393748` at 22% cart backdrop, disabled gray, and source shadow opacities match the decoded design tokens.
 - Image quality and asset fidelity: product images remain the required catalog assets with `object-fit: contain`. The header now uses the exact 41×41 Figma/Vue Storefront vector asset and decoded gradient paths rather than an approximation.
 - Copy and content: fixed interface copy matches the design. Product names, prices, attributes, and imagery differ only because the assignment requires the supplied catalog data.
+- Dynamic backend content: cart rows retain the source `167px`/`164px` heights when their content fits and expand for denser returned attributes. Rich product-description headings, paragraphs, and lists inherit the intended 16px typography and wrap inside the 292px information column.
 - Icons and states: cart, quantity, gallery, selected attributes, disabled CTA, out-of-stock, hover Quick Shop, and overlay states are present. Gallery arrows are 32×32 and the overlay omits the non-source close icon while retaining backdrop, header-toggle, and Escape closing behavior.
 - Responsiveness/accessibility: the 390×844 board shows a single-column PLP, stacked PDP, scrollable navigation, and full-width cart without horizontal clipping. Semantic controls, visible keyboard focus, alt text, reduced-motion handling, dialog labeling, and keyboard dismissal remain intact.
 
@@ -49,15 +51,23 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - Browser measurements match the decoded source: PDP title/labels/options/price/CTA at `y=160/219/245/412/506`, description at `y=598`; cart panel/header/rows/total/CTA at `y=78/110/168/571/631`.
 - No remaining visible P0/P1/P2 issue was found. Differences in subjects and strings are expected assignment-data differences, not design drift.
 
+### Iteration 3 — backend-data stress state passed
+
+- P1 found: the supplied iMac has three attribute groups, so its cart details needed `243px` while the row was fixed at `167px`. With a following iPhone row, content overlapped and the cart acquired a horizontal scrollbar.
+- Fix: cart rows now use the Figma heights as minimums, expand only when backend content requires it, keep image and quantity rails at their source dimensions, and allow vertical-only scrolling inside the fixed cart viewport. Cart totals now use the currency metadata returned with the selected backend price. Rich backend description elements were normalized to the source typography.
+- Post-fix evidence: the iMac row measured `243px`, the following row began after a `40px` gap, and `.cart-lines` measured `clientWidth=278px` and `scrollWidth=278px`, proving no overlap or horizontal overflow. The normal Nike/Jacket state still measured exactly `167px` and `164px`.
+- Combined visual evidence: `design-evidence/comparison.html` shows the normalized Figma comparison together with both post-fix cart states. No actionable P0/P1/P2 issue remains.
+
 ## Functional verification
 
 - Category navigation reached `/category/all` without a reload.
 - PDP capacity and color options selected correctly and enabled Add to Cart.
 - Add to Cart opened the overlay; quantity changed `1 → 2 → 1`; backdrop close worked.
 - Gallery next/previous changed and restored the active image.
+- A three-attribute iMac plus a second configurable product rendered without overlap; the cart retained the source summary/button geometry and scrolled vertically as needed.
 - Temporary visual-test items were removed; final preview cart count is zero.
 - Browser console errors/warnings after the primary flow: none.
-- Frontend: 5 test files and 10 tests passed; TypeScript check passed; Vite production build passed.
+- Frontend: 5 test files and 11 tests passed, including dense attributes and backend currency formatting; TypeScript check passed; Vite production build passed.
 - Backend: 11 tests and 49 assertions passed; PHPCS passed.
 
 ## Implementation checklist
@@ -65,6 +75,7 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - [x] Match the Category, PDP, and Cart Overlay Figma frames.
 - [x] Use the exact source logo and font families.
 - [x] Preserve GraphQL-backed catalog and cart/order behavior.
+- [x] Accommodate every supplied backend data shape, including three cart attributes and rich descriptions.
 - [x] Verify primary interactions and clean console output in the in-app browser.
 - [x] Verify the desktop comparison and a 390×844 responsive board.
 

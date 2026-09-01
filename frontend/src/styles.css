@@ -579,10 +579,43 @@ img {
   font-family: 'Roboto', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .product-description > :first-child {
   margin-top: 0;
+}
+
+.product-description > :last-child {
+  margin-bottom: 0;
+}
+
+.product-description p,
+.product-description ul,
+.product-description ol,
+.product-description h1,
+.product-description h2,
+.product-description h3,
+.product-description h4,
+.product-description h5,
+.product-description h6 {
+  margin: 0 0 12px;
+}
+
+.product-description ul,
+.product-description ol {
+  padding-left: 20px;
+}
+
+.product-description h1,
+.product-description h2,
+.product-description h3,
+.product-description h4,
+.product-description h5,
+.product-description h6 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.6;
 }
 
 .product-description img {
@@ -638,6 +671,7 @@ img {
   flex: 0 0 371px;
   min-height: 0;
   padding: 0;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -649,14 +683,16 @@ img {
 
 .cart-line {
   display: grid;
-  grid-template-columns: 136px 24px 121px;
+  grid-template-columns: minmax(0, 1fr) 24px 121px;
+  align-items: start;
   gap: 6px;
-  height: 164px;
+  width: 100%;
+  min-height: 164px;
   margin-bottom: 40px;
 }
 
 .cart-line:first-child {
-  height: 167px;
+  min-height: 167px;
 }
 
 .cart-line:last-child {
@@ -665,6 +701,7 @@ img {
 
 .cart-line-details {
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .cart-line-details h3 {
@@ -736,7 +773,13 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: start;
   justify-content: space-between;
+  height: 164px;
+}
+
+.cart-line:first-child .cart-line-quantity {
+  height: 167px;
 }
 
 .cart-line-quantity button {
@@ -763,11 +806,15 @@ img {
 }
 
 .cart-line-image {
-  align-self: stretch;
+  align-self: start;
   width: 121px;
-  min-height: 164px;
-  height: 100%;
+  min-height: 0;
+  height: 164px;
   object-fit: contain;
+}
+
+.cart-line:first-child .cart-line-image {
+  height: 167px;
 }
 
 .cart-summary {

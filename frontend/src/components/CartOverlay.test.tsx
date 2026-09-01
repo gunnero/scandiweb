@@ -34,13 +34,21 @@ const product: Product = {
   ],
 };
 
-function OpenCart() {
+const defaultSelection = { Color: 'Black' };
+
+function OpenCart({
+  cartProduct = product,
+  selectedAttributes = defaultSelection,
+}: {
+  cartProduct?: Product;
+  selectedAttributes?: Record<string, string>;
+}) {
   const { addItem, setOpen } = useCart();
 
   useEffect(() => {
-    addItem(product, { Color: 'Black' });
+    addItem(cartProduct, selectedAttributes);
     setOpen(true);
-  }, [addItem, setOpen]);
+  }, [addItem, cartProduct, selectedAttributes, setOpen]);
 
   return <CartOverlay />;
 }
@@ -92,5 +100,43 @@ describe('CartOverlay', () => {
     expect(screen.getByText('Checkout is unavailable.')).toBeVisible();
     expect(screen.getByAltText('iPhone')).toBeVisible();
     expect(screen.getByTestId('cart-total')).toHaveTextContent('$1000.76');
+  });
+
+  it('renders every backend attribute and formats the total with its backend currency', () => {
+    const productWithThreeAttributes: Product = {
+      ...product,
+      id: 'imac',
+      name: 'iMac',
+      prices: [{ amount: 1688.03, currencyLabel: 'EUR', currencySymbol: '€' }],
+      attributes: [
+        ...product.attributes,
+        {
+          id: 'Capacity',
+          name: 'Capacity',
+          type: 'text',
+          items: [{ id: '256GB', displayValue: '256GB', value: '256GB' }],
+        },
+        {
+          id: 'Touch ID',
+          name: 'Touch ID in keyboard',
+          type: 'text',
+          items: [{ id: 'Yes', displayValue: 'Yes', value: 'Yes' }],
+        },
+      ],
+    };
+
+    render(
+      <CartProvider>
+        <OpenCart
+          cartProduct={productWithThreeAttributes}
+          selectedAttributes={{ Color: 'Black', Capacity: '256GB', 'Touch ID': 'Yes' }}
+        />
+      </CartProvider>,
+    );
+
+    expect(screen.getByTestId('cart-item-attribute-color')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-capacity')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard')).toBeVisible();
+    expect(screen.getByTestId('cart-total')).toHaveTextContent('€1688.03');
   });
 });

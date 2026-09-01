@@ -9,7 +9,12 @@
       main { max-width: 1280px; margin: 0 auto; }
       h1 { margin: 0 0 6px; font-size: 26px; }
       p { margin: 0 0 20px; color: #5f6368; }
+      h2 { margin: 36px 0 6px; font-size: 22px; }
       img { display: block; width: 100%; height: auto; box-shadow: 0 1px 8px rgba(0,0,0,.14); }
+      .focused-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+      figure { margin: 0; }
+      figcaption { margin-top: 8px; color: #5f6368; font-size: 14px; }
+      @media (max-width: 760px) { .focused-grid { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -17,6 +22,19 @@
       <h1>Scandiweb Figma vs implementation</h1>
       <p>The final evidence below renders both sides at the same 1440px desktop viewport and 41.67% display scale. Product imagery and copy differ because the implementation uses the required data.json catalog.</p>
       <img src="normalized-comparison.png" alt="Side-by-side Figma and running implementation comparison for category, PDP, and cart overlay" />
+
+      <h2>Backend-data cart stress check</h2>
+      <p>The normal two-line state keeps the Figma row geometry. The supplied iMac state expands for its third attribute group and scrolls vertically without overlap or horizontal clipping.</p>
+      <div class="focused-grid">
+        <figure>
+          <img src="implementation-cart-after-data-fix.png" alt="Updated cart preserving the Figma 167 and 164 pixel row heights" />
+          <figcaption>Normal cart state after the adaptive-row change.</figcaption>
+        </figure>
+        <figure>
+          <img src="implementation-cart-dynamic-after.png" alt="Updated cart displaying dense backend attribute data without overlap" />
+          <figcaption>Three-attribute backend product with a second configurable product.</figcaption>
+        </figure>
+      </div>
     </main>
   </body>
 </html>

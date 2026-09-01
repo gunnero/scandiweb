@@ -109,6 +109,7 @@ export function CartOverlay() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const panelRef = useRef<HTMLElement>(null);
+  const totalPrice = items[0]?.product.prices[0];
 
   useEffect(() => {
     if (!isOpen) {
@@ -207,7 +208,9 @@ export function CartOverlay() {
         <div className="cart-summary">
           <div className="cart-total-row">
             <strong>Total</strong>
-            <strong data-testid="cart-total">${total.toFixed(2)}</strong>
+            <strong data-testid="cart-total">
+              {formatPrice(totalPrice ? { ...totalPrice, amount: total } : undefined)}
+            </strong>
           </div>
           {message && (
             <p className="cart-message" role="status">
