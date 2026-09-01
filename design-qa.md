@@ -64,6 +64,12 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - Verified an empty cart, same-option quantity merging, different-option line separation, non-interactive cart options, increment/decrement/removal, totals, and the disabled checkout state in the live browser.
 - Added regression coverage for the required header button and bubble, cart persistence, line grouping and controls, and the exact GraphQL order payload and post-success clearing behavior.
 
+### Iteration 5 — product-listing functionality passed
+
+- Verified `/` redirects to the first returned category and category routes fetch and render their decoded category.
+- Verified card images, names, two-decimal prices, exact kebab-case product test IDs, PDP links, out-of-stock presentation and cart protection, and first-option Quick Shop selections.
+- Confirmed in the live browser that Quick Shop appears on card hover and disappears when the pointer leaves; out-of-stock cards remain dimmed and never show that control.
+
 ## Functional verification
 
 - Category navigation reached `/category/all` without a reload.
@@ -73,7 +79,7 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - A three-attribute iMac plus a second configurable product rendered without overlap; the cart retained the source summary/button geometry and scrolled vertically as needed.
 - Temporary visual-test items were removed; final preview cart count is zero.
 - Browser console errors/warnings after the primary flow: none.
-- Frontend: 9 test files and 20 tests passed, including header category IDs and cart-bubble behavior, variant grouping, persistence, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
+- Frontend: 11 test files and 23 tests passed, including default/category routing, product-card stock and Quick Shop behavior, header/category IDs, cart persistence and grouping, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
 - Backend: 11 tests and 49 assertions passed; PHPCS passed.
 
 ## Implementation checklist
