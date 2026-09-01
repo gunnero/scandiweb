@@ -36,7 +36,7 @@ export function Header() {
           className="cart-trigger"
           type="button"
           data-testid="cart-btn"
-          aria-label={`Open cart, ${itemCount} ${itemCount === 1 ? 'item' : 'items'}`}
+          aria-label={`Open cart, ${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}`}
           aria-controls="cart-overlay"
           aria-expanded={isOpen}
           onClick={() => setOpen(!isOpen)}

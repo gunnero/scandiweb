@@ -24,7 +24,7 @@
 
 No actionable P0, P1, or P2 differences remain.
 
-- Fonts and typography: Raleway 300/400/500/600/700, Roboto, Roboto Condensed 700, and Source Sans Pro are loaded and used in their source roles. The PDP uses one 30px/600 product heading. The cart casing is `My Bag, 3 items`, matching the source.
+- Fonts and typography: Raleway 300/400/500/600/700, Roboto, Roboto Condensed 700, and Source Sans Pro are loaded and used in their source roles. The PDP uses one 30px/600 product heading. The cart uses `My Bag, 3 Items`; the capitalized `Item`/`Items` follows the assignment's explicit functional requirement.
 - Spacing and layout rhythm: the PLP heading begins at `y=160`, cards at `y=331`, and rows use the source 103px gap. The PDP uses 79×80 thumbnails at 20px gaps, a 575×478 main image area, a 292px information column at source-equivalent `x=903`, and the source CTA/description rhythm. The cart is 325×628 with 16px horizontal padding, 293px rows, exact 167/164px row heights, a 40px row gap, and a 292×43 CTA.
 - Colors and visual tokens: the `#5ECE7B` primary, `#1D1F22` ink, `#393748` at 22% cart backdrop, disabled gray, and source shadow opacities match the decoded design tokens.
 - Image quality and asset fidelity: product images remain the required catalog assets with `object-fit: contain`. The header now uses the exact 41×41 Figma/Vue Storefront vector asset and decoded gradient paths rather than an approximation.
@@ -43,7 +43,7 @@ No actionable P0, P1, or P2 differences remain.
 - P2: PLP vertical rhythm began about 40px too early.
 - P2: the header logo was an approximate CSS tile/local bag drawing.
 
-Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensions; reduced gallery arrows to 32px; changed the PDP to one product heading; removed the extra cart close control; restored source cart casing; matched source shadows and out-of-stock opacity; and installed the exact decoded VSF logo SVG.
+Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensions; reduced gallery arrows to 32px; changed the PDP to one product heading; removed the extra cart close control; aligned cart typography; matched source shadows and out-of-stock opacity; and installed the exact decoded VSF logo SVG.
 
 ### Iteration 2 — passed
 
@@ -58,6 +58,12 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - Post-fix evidence: the iMac row measured `243px`, the following row began after a `40px` gap, and `.cart-lines` measured `clientWidth=278px` and `scrollWidth=278px`, proving no overlap or horizontal overflow. The normal Nike/Jacket state still measured exactly `167px` and `164px`.
 - Combined visual evidence: `design-evidence/comparison.html` shows the normalized Figma comparison together with both post-fix cart states. No actionable P0/P1/P2 issue remains.
 
+### Iteration 4 — explicit cart functionality passed
+
+- Corrected the exact count copy to `1 Item` / `X Items` while preserving singular/plural behavior in the overlay and accessible header label.
+- Verified an empty cart, same-option quantity merging, different-option line separation, non-interactive cart options, increment/decrement/removal, totals, and the disabled checkout state in the live browser.
+- Added regression coverage for the required header button and bubble, cart persistence, line grouping and controls, and the exact GraphQL order payload and post-success clearing behavior.
+
 ## Functional verification
 
 - Category navigation reached `/category/all` without a reload.
@@ -67,7 +73,7 @@ Fixes: loaded all source fonts and weights; matched decoded PLP/PDP/cart dimensi
 - A three-attribute iMac plus a second configurable product rendered without overlap; the cart retained the source summary/button geometry and scrolled vertically as needed.
 - Temporary visual-test items were removed; final preview cart count is zero.
 - Browser console errors/warnings after the primary flow: none.
-- Frontend: 5 test files and 11 tests passed, including dense attributes and backend currency formatting; TypeScript check passed; Vite production build passed.
+- Frontend: 9 test files and 19 tests passed, including header/bubble behavior, variant grouping, persistence, exact order payloads and GraphQL documents, dense attributes, and backend currency formatting; TypeScript check passed; Vite production build passed.
 - Backend: 11 tests and 49 assertions passed; PHPCS passed.
 
 ## Implementation checklist

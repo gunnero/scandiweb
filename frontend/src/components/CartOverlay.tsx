@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import type { CartItem } from '../types/catalog';
 import { formatPrice, toKebabCase } from '../utils/format';
 
-const itemLabel = (count: number): string => `${count} ${count === 1 ? 'item' : 'items'}`;
+const itemLabel = (count: number): string => `${count} ${count === 1 ? 'Item' : 'Items'}`;
 
 const optionTestId = (
   attributeName: string,

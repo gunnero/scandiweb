@@ -53,6 +53,19 @@ function OpenCart({
   return <CartOverlay />;
 }
 
+function OpenCartWithVariants() {
+  const { addItem, setOpen } = useCart();
+
+  useEffect(() => {
+    addItem(product, { Color: 'Black' });
+    addItem(product, { Color: 'Green' });
+    addItem(product, { Color: 'Green' });
+    setOpen(true);
+  }, [addItem, setOpen]);
+
+  return <CartOverlay />;
+}
+
 describe('CartOverlay', () => {
   beforeEach(() => {
     createOrder.mockReset();
@@ -75,6 +88,9 @@ describe('CartOverlay', () => {
     expect(screen.getByTestId('cart-item-attribute-color')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-color-black-selected')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-color-green')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-color-black-selected').tagName).toBe('SPAN');
+    expect(screen.getByRole('heading', { name: 'iPhone' })).toBeVisible();
+    expect(screen.getByText('My Bag,').parentElement).toHaveTextContent('My Bag, 1 Item');
     expect(screen.getByTestId('cart-total')).toHaveTextContent('$1000.76');
     expect(screen.getByAltText('iPhone')).toHaveAttribute('src', 'main.jpg');
 
@@ -84,6 +100,31 @@ describe('CartOverlay', () => {
     expect(screen.getByText('Your cart is empty.')).toBeVisible();
     expect(screen.getByTestId('cart-total')).toHaveTextContent('$0.00');
     expect(screen.getByRole('button', { name: 'PLACE ORDER' })).toBeDisabled();
+  });
+
+  it('separates different variants, merges identical variants, and applies quantity controls', async () => {
+    const user = userEvent.setup();
+    render(
+      <CartProvider>
+        <OpenCartWithVariants />
+      </CartProvider>,
+    );
+
+    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(screen.getAllByTestId('cart-item-amount').map((element) => element.textContent)).toEqual([
+      '1',
+      '2',
+    ]);
+    expect(screen.getByText('My Bag,').parentElement).toHaveTextContent('My Bag, 3 Items');
+
+    await user.click(screen.getAllByRole('button', { name: /Increase iPhone quantity/ })[0]);
+    expect(screen.getAllByTestId('cart-item-amount')[0]).toHaveTextContent('2');
+    expect(screen.getByText('My Bag,').parentElement).toHaveTextContent('My Bag, 4 Items');
+
+    await user.click(screen.getAllByRole('button', { name: /Decrease iPhone quantity/ })[0]);
+    await user.click(screen.getAllByRole('button', { name: /Decrease iPhone quantity/ })[0]);
+    expect(screen.getAllByRole('article')).toHaveLength(1);
+    expect(screen.getByText('My Bag,').parentElement).toHaveTextContent('My Bag, 2 Items');
   });
 
   it('preserves the cart when the GraphQL mutation fails', async () => {
