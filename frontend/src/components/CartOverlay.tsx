@@ -11,7 +11,7 @@ const optionTestId = (
   value: string,
   selected: boolean,
 ): string => {
-  const base = `cart-item-attribute-${toKebabCase(attributeName)}-${toKebabCase(value)}`;
+  const base = `cart-item-attribute-${toKebabCase(attributeName)}-${value}`;
   return selected ? `${base}-selected` : base;
 };
 
@@ -180,6 +180,7 @@ export function CartOverlay() {
       <section
         className="cart-overlay"
         id="cart-overlay"
+        data-testid="cart-overlay"
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"

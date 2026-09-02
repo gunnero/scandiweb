@@ -166,6 +166,7 @@ export function ProductDetailsPage() {
                       selected ? ' product-option-selected' : ''
                     }`}
                     type="button"
+                    data-testid={`product-attribute-${toKebabCase(attribute.name)}-${option.displayValue}`}
                     key={option.id}
                     aria-label={`${attribute.name}: ${option.displayValue}`}
                     aria-pressed={selected}

@@ -46,7 +46,7 @@ function DefaultCategoryRoute() {
     return <AsyncState title="The catalog is empty" />;
   }
 
-  return <Navigate replace to={`/category/${encodeURIComponent(categories[0].name)}`} />;
+  return <Navigate replace to={`/${encodeURIComponent(categories[0].name)}`} />;
 }
 
 function Storefront() {
@@ -60,6 +60,7 @@ function Storefront() {
           <Route path="/" element={<DefaultCategoryRoute />} />
           <Route path="/category/:categoryName" element={<ProductListPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
+          <Route path="/:categoryName" element={<ProductListPage />} />
           <Route path="*" element={<DefaultCategoryRoute />} />
         </Routes>
       </main>

@@ -12,7 +12,7 @@ export function Header() {
       <div className="header-content">
         <nav className="category-navigation" aria-label="Product categories">
           {categories.map((category) => {
-            const destination = `/category/${encodeURIComponent(category.name)}`;
+            const destination = `/${encodeURIComponent(category.name)}`;
             const isActive = activeCategoryName === category.name;
 
             return (

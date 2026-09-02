@@ -83,10 +83,15 @@ describe('Header', () => {
       'data-testid',
       'active-category-link',
     );
+    expect(screen.getByTestId('active-category-link')).toHaveAttribute('href', '/all');
     expect(screen.getAllByTestId('category-link')).toHaveLength(2);
     expect(screen.getAllByTestId('category-link').map((link) => link.textContent)).toEqual([
       'clothes',
       'tech',
+    ]);
+    expect(screen.getAllByTestId('category-link').map((link) => link.getAttribute('href'))).toEqual([
+      '/clothes',
+      '/tech',
     ]);
   });
 

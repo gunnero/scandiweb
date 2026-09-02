@@ -34,7 +34,7 @@ describe('App default category route', () => {
       await screen.findByRole('heading', { name: 'first category' }),
     ).toBeVisible();
     await waitFor(() => {
-      expect(window.location.pathname).toBe('/category/first%20category');
+      expect(window.location.pathname).toBe('/first%20category');
     });
     expect(catalogApi.fetchProductsByCategory).toHaveBeenCalledWith('first category');
     expect(catalogApi.fetchProductsByCategory).not.toHaveBeenCalledWith(

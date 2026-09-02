@@ -41,12 +41,12 @@ describe('ProductListPage category routing', () => {
 
   it('decodes the route category, activates it, and renders products returned for it', async () => {
     render(
-      <MemoryRouter initialEntries={['/category/home%20decor']}>
+      <MemoryRouter initialEntries={['/home%20decor']}>
         <CatalogProvider>
           <CartProvider>
             <Routes>
               <Route
-                path="/category/:categoryName"
+                path="/:categoryName"
                 element={
                   <>
                     <ProductListPage />

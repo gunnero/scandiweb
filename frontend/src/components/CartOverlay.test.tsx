@@ -85,10 +85,11 @@ describe('CartOverlay', () => {
       </CartProvider>,
     );
 
+    expect(screen.getByTestId('cart-overlay')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-color')).toBeVisible();
-    expect(screen.getByTestId('cart-item-attribute-color-black-selected')).toBeVisible();
-    expect(screen.getByTestId('cart-item-attribute-color-green')).toBeVisible();
-    expect(screen.getByTestId('cart-item-attribute-color-black-selected').tagName).toBe('SPAN');
+    expect(screen.getByTestId('cart-item-attribute-color-Black-selected')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-color-Green')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-color-Black-selected').tagName).toBe('SPAN');
     expect(screen.getByTestId('cart-item-amount-increase')).toBeEnabled();
     expect(screen.getByTestId('cart-item-amount')).toHaveTextContent('1');
     expect(screen.getByTestId('cart-item-amount-decrease')).toBeEnabled();
@@ -187,12 +188,12 @@ describe('CartOverlay', () => {
 
     expect(screen.getByTestId('cart-item-attribute-color')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-capacity')).toBeVisible();
-    expect(screen.getByTestId('cart-item-attribute-capacity-256gb-selected')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-capacity-256GB-selected')).toBeVisible();
     expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard')).toBeVisible();
     expect(
-      screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-yes-selected'),
+      screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-Yes-selected'),
     ).toBeVisible();
-    expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-no')).toBeVisible();
+    expect(screen.getByTestId('cart-item-attribute-touch-id-in-keyboard-No')).toBeVisible();
     expect(screen.getByTestId('cart-total')).toHaveTextContent('€1688.03');
   });
 });

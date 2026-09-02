@@ -110,6 +110,8 @@ describe('ProductDetailsPage', () => {
 
     expect(sizeAttribute).toHaveTextContent('Size:');
     expect(colorAttribute).toHaveTextContent('Color:');
+    expect(screen.getByTestId('product-attribute-size-Medium')).toBeVisible();
+    expect(screen.getByTestId('product-attribute-color-Red')).toBeVisible();
     expect(addToCart.nextElementSibling).toBe(description);
     expect(addToCart).toBeDisabled();
     expect(screen.getByTestId('cart-probe')).toHaveTextContent('false:0:none:none');
